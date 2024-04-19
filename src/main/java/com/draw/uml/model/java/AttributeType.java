@@ -7,10 +7,19 @@ import lombok.ToString;
 @Getter
 @Builder
 @ToString
+
+/**
+ * Represents the type of an attribute in a UML class diagram.
+ */
 public class AttributeType {
     private String mainType;
     private String typeArgs;
 
+    /**
+     * Converts the attribute type to a type signature.
+     * 
+     * @return The type signature of the attribute type.
+     */
     public String toTypeSignature() {
         StringBuilder typeSignature = new StringBuilder();
         typeSignature.append(mainType);

@@ -14,6 +14,10 @@ import com.draw.uml.model.java.Method;
 import com.draw.uml.registry.JavaObjectsRegistry;
 import com.draw.uml.util.FileUtil;
 
+/**
+ * The PlantUmlDrawingStrategy class implements the DrawingStrategy interface
+ * and provides methods to draw a class diagram using PlantUML syntax.
+ */
 public class PlantUmlDrawingStrategy implements DrawingStrategy {
     private final Logger logger = Logger.getLogger(this.getClass().getName());
     private static final String FILE_EXTENSION = ".puml";
@@ -27,6 +31,14 @@ public class PlantUmlDrawingStrategy implements DrawingStrategy {
         JavaType.INTERFACE, "interface"
     );
 
+    /**
+     * Initializes the PlantUML drawing strategy.
+     *
+     * @param directoryPath The directory path where the PlantUML file will be created.
+     * @param umlBuilder    The StringBuilder to build the PlantUML content.
+     * @return The absolute file path of the created PlantUML file.
+     * @throws FileOperationException If there is an error creating the file.
+     */
     @Override
     public String init(String directoryPath, StringBuilder umlBuilder) throws FileOperationException {
         logger.info("Initializing PlantUML drawing strategy");
@@ -37,6 +49,12 @@ public class PlantUmlDrawingStrategy implements DrawingStrategy {
         return filePath;
     }
 
+    /**
+     * Draws the class diagram using PlantUML syntax.
+     *
+     * @param javaObjectsRegistry The registry containing the Java objects to be drawn.
+     * @param umlBuilder          The StringBuilder to build the PlantUML content.
+     */
     @Override
     public void draw(JavaObjectsRegistry javaObjectsRegistry, StringBuilder umlBuilder) {
         logger.info("Drawing PlantUML class diagram");
@@ -52,6 +70,12 @@ public class PlantUmlDrawingStrategy implements DrawingStrategy {
             .forEach(javaObject -> drawRelation(javaObjectsRegistry, javaObject, umlBuilder));
     }
 
+    /**
+     * Draws a Java object using the PlantUML drawing strategy.
+     *
+     * @param javaObject   the Java object to be drawn
+     * @param umlBuilder   the StringBuilder used to build the PlantUML code
+     */
     private void drawJavaObject(JavaObject javaObject, StringBuilder umlBuilder) {
         logger.info("Drawing Java object: " + javaObject.getName());
         umlBuilder
@@ -71,6 +95,13 @@ public class PlantUmlDrawingStrategy implements DrawingStrategy {
             .append("\n}\n");
     }
 
+    /**
+     * Draws associations for a Java object.
+     *
+     * @param javaObjectsRegistry The registry of Java objects.
+     * @param javaObject The Java object for which associations are being drawn.
+     * @param umlBuilder The StringBuilder used to build the UML diagram.
+     */
     private void drawAssociation(JavaObjectsRegistry javaObjectsRegistry, JavaObject javaObject, StringBuilder umlBuilder) {
         logger.info("Drawing associations for Java object: " + javaObject.getName());
         javaObject.getAttributes().forEach(attribute -> {
@@ -93,6 +124,14 @@ public class PlantUmlDrawingStrategy implements DrawingStrategy {
         });
     }
 
+
+    /**
+     * Draws the relations for a Java object.
+     *
+     * @param javaObjectsRegistry The registry of Java objects.
+     * @param javaObject The Java object for which relations are being drawn.
+     * @param umlBuilder The StringBuilder used to build the UML diagram.
+     */
     private void drawRelation(JavaObjectsRegistry javaObjectsRegistry, JavaObject javaObject, StringBuilder umlBuilder) {
         logger.info("Drawing relations for Java object: " + javaObject.getName());
         javaObject.getParents().forEach(parent -> {
@@ -106,11 +145,14 @@ public class PlantUmlDrawingStrategy implements DrawingStrategy {
         });
     }
 
+    /**
+     * Finishes the PlantUML drawing strategy.
+     *
+     * @param umlBuilder The StringBuilder to build the PlantUML content.
+     */
     @Override
     public void finish(StringBuilder umlBuilder) {
         logger.info("Finishing PlantUML drawing strategy");
         umlBuilder.append(UML_END);
-
     }
-
 }

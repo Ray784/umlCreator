@@ -12,14 +12,23 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
-@AllArgsConstructor
+/**
+ * The DrawingService class provides functionality to draw UML diagrams based on Java objects.
+ */
+ @Getter
+ @Setter
+ @AllArgsConstructor
 public class DrawingService {
     private final JavaObjectsRegistry javaObjectsRegistry;
     private final DrawingStrategy drawingStrategy;
     private final Logger logger = Logger.getLogger(this.getClass().getName());
 
+    /**
+     * Initializes the DrawingService by creating the necessary directories if they don't exist.
+     *
+     * @param directoryPath The path to the directory where the UML diagrams will be saved.
+     * @throws FileOperationException If an error occurs while creating the directories.
+     */
     private void init(String directoryPath) throws FileOperationException {
         logger.info("Initializing Drawing Service");
         directoryPath = FileUtil.getAbsolutePath(directoryPath);
@@ -30,11 +39,24 @@ public class DrawingService {
             FileUtil.createDirectoryIfNotExist(FileUtil.getParentPath(directoryPath));
     }
 
+    /**
+     * Finishes the drawing process by invoking the finish method of the drawing strategy and writing the UML diagram to a file.
+     *
+     * @param umlFilePath The path to the file where the UML diagram will be saved.
+     * @param umlBuilder The StringBuilder containing the UML diagram.
+     * @throws FileOperationException If an error occurs while writing the UML diagram to the file.
+     */
     private void finish(String umlFilePath, StringBuilder umlBuilder) throws FileOperationException {
         drawingStrategy.finish(umlBuilder);
         FileUtil.writeToFile(umlFilePath, umlBuilder.toString());
     }
 
+    /**
+     * Draws the UML diagram based on the Java objects in the specified directory.
+     *
+     * @param directoryPath The path to the directory containing the Java objects.
+     * @throws FileOperationException If an error occurs while drawing the UML diagram or writing it to a file.
+     */
     public void draw(String directoryPath) throws FileOperationException {
         init(directoryPath);
         StringBuilder umlBuilder = new StringBuilder();

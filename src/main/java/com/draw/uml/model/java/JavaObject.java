@@ -9,6 +9,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * Represents a Java object in the UML diagram.
+ */
 @Getter
 @Builder
 @Setter
